@@ -24,11 +24,12 @@ fn interpret(code: &str) {
                 memory[pointer] = input[0]; // assign it to the memory cell currently pointed to by the pointer
             } // input 1 character
             '[' => {
+                // loop should be skipped
                 if memory[pointer] == 0 {
-                    // loop should be skipped
-                    let mut loop_end = 1; // keep track of the end of the loop
+                    // keep track of the end of the loop
+                    let mut loop_end = 1;
+                    // skip over the loop and find its end
                     while loop_end > 0 {
-                        // skip over the loop and find its end
                         program_counter += 1;
                         match code.chars().nth(program_counter).unwrap() {
                             '[' => loop_end += 1, // another nested loop is encountered within the loop
@@ -39,18 +40,18 @@ fn interpret(code: &str) {
                 } else {
                     loop_stack.push(program_counter); // the loop should be entered, to remember the starting position of the loop
                 }
-            } // loop
+            }
             ']' => {
+                // check if there's a corresponding loop starting position on the loop_stack
                 if let Some(start_loop) = loop_stack.pop() {
-                    // check if there's a corresponding loop starting position on the loop_stack
+                    // check if the memory cell is not 0
                     if memory[pointer] != 0 {
-                        // check if the memory cell is not 0
                         program_counter = start_loop; // jump back to the start of the loop to repeat it
                         continue;
                     }
                 }
             }
-            _ => {} // // ignored chars
+            _ => {} // ignored chars
         }
         program_counter += 1; // move to the next position in the code
     }
@@ -60,7 +61,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("error: No file path provided.\nPlease specify the path to a Brainfuck file.\nUsage: oxybrain <path_to_brainfuck_file>");
+        eprintln!("error: no file path provided, please specify the path to a Brainfuck file.\nusage: oxybrain <path_to_brainfuck_file>");
         return;
     }
 
@@ -71,7 +72,7 @@ fn main() {
         return;
     }
 
-    let code = fs::read_to_string(file_path).expect("error reading the brainfuck file");
+    let code = fs::read_to_string(file_path).expect("error reading the brainfuck file.");
 
     interpret(&code)
 }

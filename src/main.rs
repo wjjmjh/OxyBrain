@@ -3,7 +3,7 @@ use std::fs;
 use std::io::{self, Read};
 use std::path::Path;
 
-const MEMORY_SIZE: usize = 30000; // conventional memory limit
+const MEMORY_SIZE: usize = 30000; // conventional memory size for the "tape"
 
 fn interpret(code: &str) {
     let mut memory = [0u8; MEMORY_SIZE];

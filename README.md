@@ -1,6 +1,6 @@
 ## OxyBrain
 
-### Brainfuck interpreter in Rust
+### Minimum Brainfuck interpreter in Rust
 
 #### Build
 
